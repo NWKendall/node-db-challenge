@@ -1,7 +1,5 @@
 const express = require('express');
-
 const projData = require('./projects-model.js')
-
 const router = express.Router();
 
 
@@ -55,7 +53,7 @@ router.get('/:id/tasks', (req, res) => {
   projData
     .getTasks(task.project_id)
     .then(tasks => {
-      console.log(`post2`, tasks)
+      console.log(`GETTING TASKS`, tasks)
       !tasks?
         res.status(404).json({ error: "no posts for this user exist"}) :      
         res.status(200).json(tasks)      
@@ -67,7 +65,7 @@ router.get('/:id/tasks', (req, res) => {
 });
 
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/tasks', validateTask, (req, res) => {
   // user creates a new post
   const { id } = req.params;
   const task = { ...req.body, project_id: id };  
@@ -75,7 +73,8 @@ router.post('/:id/posts', (req, res) => {
 
   projData
     .addProjectTask(task)
-    .then(newTask => {          
+    .then(newTask => {      
+      console.log(`POSTING TASKS`, task)    
           res.status(201).json(newTask)
         })
     .catch(err => {
@@ -83,5 +82,21 @@ router.post('/:id/posts', (req, res) => {
       res.status(500).json({ error: "Creating new TASK FAILED" })
     })    
 });
+
+
+
+
+function validateTask(req, res, next) {
+  // validates all POST requests for new post (not new user)
+  const { id } = req.params;
+  const task = { ...req.body, user_id: id };  
+  console.log(`validate task:`, task)
+
+  !task ? 
+    res.status(400).json({ message: "missing user data" }) 
+    : !task.description 
+    ? res.status(400).json({ message: "missing required text field" })
+    : next();
+}
 
 module.exports = router
