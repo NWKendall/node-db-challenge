@@ -16,9 +16,21 @@ function getProjects(){
 }
 
 function getProjectId(id){
-  return db('projects')
-    .where({ id })
-    .first();
+  return db('projects as p')
+    .join('tasks as t', 't.project_id', 'p.id')   
+    .join('project_resources as pr', 'pr.project_id', 'p.id')
+    .join('resources as r', 'r.id', 'pr.project_id')
+    .select(
+      'p.id as pID#',
+      'p.name as project_name',
+      'p.completed as proj_comp',
+      't.description as task_desc',
+      't.notes as task_note',
+      't.completed as task_comp',
+      'r.name as resource'      
+    )
+    .where('p.id', id )
+    
 }
 
 function addProject(proj){
@@ -40,7 +52,7 @@ function addProjectTask(proj){
   return db('projects')
     .insert(proj)
     .then(ids => {
-      return getProjectId(ids[0])
+      return getProjectId(ids)
     })
     
 }

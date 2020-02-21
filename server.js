@@ -1,9 +1,7 @@
 const express = require('express');
 
 const projectRouter = require('./data/projects-router')
-
 const resourceRouter = require('./data/resource-router')
-
 
 const server = express();
 
