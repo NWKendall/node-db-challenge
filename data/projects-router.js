@@ -67,21 +67,21 @@ router.get('/:id/tasks', (req, res) => {
 });
 
 
-router.post('/:id', (req, res) => {
-  projData
-  .getProjectId(req.params.id)
-  .then(task => {
-    projData
-    .addProjectTask(task)
-    .then(t => {
-      return res.json(t);
-    })
-    
-  })
-  .catch(err => {
-    res.status(500).json({ message: 'Failed to create new task!' });
-  });
+router.post('/:id/posts', (req, res) => {
+  // user creates a new post
+  const { id } = req.params;
+  const task = { ...req.body, project_id: id };  
+  console.log(`BODY from user task`, task)
 
-})
+  projData
+    .addProjectTask(task)
+    .then(newTask => {          
+          res.status(201).json(newTask)
+        })
+    .catch(err => {
+      console.log(`this is error from new user task`, err)
+      res.status(500).json({ error: "Creating new TASK FAILED" })
+    })    
+});
 
 module.exports = router

@@ -37,7 +37,10 @@ function getTasks(id){
 
 
 function addProjectTask(proj){
-  return db('tasks')
+  return db('projects')
     .insert(proj)
+    .then(ids => {
+      return getProjectId(ids[0])
+    })
     
 }
