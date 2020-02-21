@@ -2,6 +2,8 @@ const express = require('express');
 
 const projectRouter = require('./data/projects-router')
 
+// const resourceRouter = require('./data/resource-router')
+
 
 const server = express();
 
@@ -12,6 +14,7 @@ server.get('/api', (req, res) => {
 })
 
 server.use("/api/projects", projectRouter)
+// server.use("/api/resources", resourceRouter)
 
 const port = 7000
 server.listen(port, () => console.log(`SERVER listening port: ${port}`))

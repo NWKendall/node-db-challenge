@@ -71,8 +71,8 @@ Complete the following tasks:
   - [x] when adding a `task` the client must provide the `id` of an existing project.
   - [x] for `projects` and `tasks` if no value is provided for the `completed` property, the API should provide a default value of `false`.
 - [ ] Build an API with endpoints for:
-  - [ ] adding resources.
-  - [ ] retrieving a list of resources.
+  - [x] adding resources.
+  - [x] retrieving a list of resources.
   - [ ] adding projects.
   - [ ] retrieving a list of projects.
   - [ ] adding tasks.
@@ -82,10 +82,10 @@ Complete the following tasks:
 
 A `project` is what needs to be done. We want to store the following data about a `project`:
 
-- [ ] a unique ID.
-- [ ] a name. This column is required.
-- [ ] a description.
-- [ ] a boolean that indicates if the project has been completed. This column cannot be NULL, the default value should be `false`.
+- [x] a unique ID.
+- [x] a name. This column is required.
+- [x] a description.
+- [x] a boolean that indicates if the project has been completed. This column cannot be NULL, the default value should be `false`.
 
 A `resource` is anything needed to complete a project, some examples are: a person, a tool, a meeting room or a software license. We want to store the following data about a `resource`:
 
