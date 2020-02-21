@@ -1,15 +1,13 @@
 const express = require('express');
-
 const resourceData = require('./resource-model.js')
-
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
   resourceData
   .getResources()
-  .then(recipes => {
-    res.json(recipes);
+  .then(resources => {
+    res.json(resources);
   })
   .catch(err => {
     res.status(500).json({ message: 'Failed to get Projects!' });
@@ -33,13 +31,13 @@ router.post('/', (req, res) => {
   const resource = req.body;
 
   resourceData
-  .addResource(resource)
-  .then(reso => {
-    res.status(201).json(reso);
-  })
-  .catch (err => {
-    res.status(500).json({ message: 'Failed to create new project' });
-  });
+    .addResource(resource)
+    .then(reso => {
+      res.status(201).json(reso);
+    })
+    .catch (err => {
+      res.status(500).json({ message: 'Failed to create new project' });
+    });
 });
 
 module.exports = router

@@ -4,18 +4,21 @@ module.exports = {
   getProjects,
   getProjectId,
   addProject,
+  
   getTasks,
-  addProjectTask
+  addProjectTask,
+
+  getResources,
 }
 
 
 //PROJECTS
 
-function getProjects(){
+function getProjects() {
   return db('projects');
 }
 
-function getProjectId(id){
+function getProjectId(id) {
   return db('projects as p')
     .join('tasks as t', 't.project_id', 'p.id')   
     .join('project_resources as pr', 'pr.project_id', 'p.id')
@@ -33,14 +36,14 @@ function getProjectId(id){
     
 }
 
-function addProject(proj){
+function addProject(proj) {
   return db('projects')
     .insert(proj, 'id')
 }
 
 // TASKS
 
-function getTasks(id){
+function getTasks(id) {
   return db('tasks as t')
     .join('projects as p', 'p.id', 't.project_id')
     .select(
@@ -53,8 +56,18 @@ function getTasks(id){
     .where('t.project_id', id)
 }
 
+function getResources(id) {
+  return db('project_resources as pr')
+    .join('resources as r', 'r.id', 'pr.project_id' )
+    .join('projects as p', 'p.id', 'pr.project_id')
+    .select(
+      'p.id as pID#',
+      'r.name as resource'
+      )
+    .where('pr.project_id', id)
+}
 
-function addProjectTask(task){
+function addProjectTask(task) {
   return db('tasks as t')
     .join('projects as p', 't.project_id', 'p.id')
     .insert(task)    

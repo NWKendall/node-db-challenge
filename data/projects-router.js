@@ -65,6 +65,27 @@ router.get('/:id/tasks', (req, res) => {
 });
 
 
+router.get('/:id/resources', (req, res) => {
+  // Get all of an individual user's posts
+  
+  const { id } = req.params;
+  const resource = { ...req.body, project_id: id };
+
+  projData
+    .getResources(resource.project_id)
+    .then(resources => {
+      console.log(`GETTING resourceS`, resources)
+      !resources?
+        res.status(404).json({ error: "no posts for this user exist"}) :      
+        res.status(200).json(resources)      
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ message: "WTF!"})
+    })      
+});
+
+
 router.post('/:id/tasks', validateTask, (req, res) => {
   // user creates a new post
   const { id } = req.params;
